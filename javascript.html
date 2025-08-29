@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript | 발도르프 컴퓨터 교육</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .toggle-card{display:grid;gap:10px}
+    .hidden{display:none}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px}
+  </style>
+</head>
+<body>
+  <!-- 헤더: javascript만 active -->
+  <header>
+    <div class="container">
+      <div class="brand">발도르프 컴퓨터 교육</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">home</a></li>
+          <li><a href="text.html">text</a></li>
+          <li><a href="html.html">html</a></li>
+          <li><a href="css.html">css</a></li>
+          <li><a href="javascript.html" class="active">javascript</a></li>
+          <li><a href="survey.html">survey</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <section class="card toggle-card">
+      <h1>자기소개 (상호작용)</h1>
+      <p class="small">버튼을 눌러 상세 정보를 토글합니다.</p>
+      <div>
+        <span class="pill" id="modePill">Mode: <strong>간략</strong></span>
+      </div>
+      <button class="primary" id="toggleBtn">상세 보기</button>
+
+      <div id="detail" class="hidden">
+        <h2>상세 소개</h2>
+        <ul>
+          <li>프로젝트: 커뮤니티 워크숍, 교육 웹앱</li>
+          <li>관심사: 글쓰기·웹표준·교육공학</li>
+          <li>목표: 생활 맥락에서 배우는 컴퓨팅</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 Waldorf Computing</footer>
+
+  <script>
+    const btn = document.getElementById('toggleBtn');
+    const detail = document.getElementById('detail');
+    const pill = document.getElementById('modePill');
+    btn.addEventListener('click', ()=>{
+      const open = detail.classList.toggle('hidden') === false;
+      btn.textContent = open ? '간략 보기' : '상세 보기';
+      pill.innerHTML = 'Mode: <strong>'+(open?'상세':'간략')+'</strong>';
+    });
+  </script>
+</body>
+</html>

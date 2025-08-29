@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>CSS | 발도르프 컴퓨터 교육</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .profile{
+      display:grid;gap:16px;align-items:center
+    }
+    .profile .avatar{
+      width:120px;height:120px;border-radius:50%;
+      background:linear-gradient(135deg,#dbeafe,#f5f3ff);
+      display:flex;align-items:center;justify-content:center;font-weight:800
+    }
+    .badge{display:inline-block;background:#eef2ff;border:1px solid #e0e7ff;color:#1f2937;padding:4px 8px;border-radius:999px;font-size:12px;margin-right:6px}
+    .list{display:grid;gap:8px}
+  </style>
+</head>
+<body>
+  <!-- 헤더: css만 active -->
+  <header>
+    <div class="container">
+      <div class="brand">발도르프 컴퓨터 교육</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">home</a></li>
+          <li><a href="text.html">text</a></li>
+          <li><a href="html.html">html</a></li>
+          <li><a href="css.html" class="active">css</a></li>
+          <li><a href="javascript.html">javascript</a></li>
+          <li><a href="survey.html">survey</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container grid cols-2">
+    <section class="card profile">
+      <div class="avatar">HG</div>
+      <div>
+        <h1>홍길동</h1>
+        <div class="small">교육 · 글쓰기 · 웹 개발</div>
+        <div style="margin-top:8px">
+          <span class="badge">#Waldorf</span>
+          <span class="badge">#Making</span>
+          <span class="badge">#OpenWeb</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>핵심 가치</h2>
+      <div class="list">
+        <div>∙ 삶과 연결된 학습</div>
+        <div>∙ 협력과 공유</div>
+        <div>∙ 윤리적 기술 사용</div>
+      </div>
+    </section>
+
+    <section class="card" style="grid-column:1/-1">
+      <h2>한 줄 소개</h2>
+      <p>
+        사람과 문제, 도구를 잇는 연결자가 되고 싶다. 글과 코드로 생각을 만들고,
+        프로젝트로 배우며 나눈다.
+      </p>
+    </section>
+  </main>
+
+  <footer>© 2025 Waldorf Computing</footer>
+</body>
+</html>

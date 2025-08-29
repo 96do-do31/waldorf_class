@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Survey | 발도르프 컴퓨터 교육</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- 헤더: survey만 active -->
+  <header>
+    <div class="container">
+      <div class="brand">발도르프 컴퓨터 교육</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">home</a></li>
+          <li><a href="text.html">text</a></li>
+          <li><a href="html.html">html</a></li>
+          <li><a href="css.html">css</a></li>
+          <li><a href="javascript.html">javascript</a></li>
+          <li><a href="survey.html" class="active">survey</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <section class="card">
+      <h1>설문</h1>
+      <form id="surveyForm">
+        <label for="grade">학년</label>
+        <input id="grade" name="grade" type="text" placeholder="예: 3학년" required>
+
+        <label for="name">이름</label>
+        <input id="name" name="name" type="text" placeholder="이름" required>
+
+        <label for="level">컴퓨터 교육 수준</label>
+        <select id="level" name="level" required>
+          <option value="">선택하세요</option>
+          <option>입문</option>
+          <option>기초</option>
+          <option>중급</option>
+          <option>심화</option>
+        </select>
+
+        <label>
+          <input id="interest" name="interest" type="checkbox">
+          참여에 관심이 있습니다
+        </label>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="primary" type="submit">서밋</button>
+          <button type="button" id="clearBtn" title="모든 기록 삭제">
+            초기화
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>제출 기록</h2>
+      <p class="small">서밋하면 아래 표에 계속 누적됩니다. (브라우저 <kbd>localStorage</kbd> 저장)</p>
+      <div style="overflow:auto">
+        <table id="resultTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>학년</th>
+              <th>이름</th>
+              <th>수준</th>
+              <th>관심</th>
+              <th>제출시각</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- JS가 채움 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 Waldorf Computing</footer>
+
+  <script>
+    const KEY = 'surveySubmissions';
+    const form = document.getElementById('surveyForm');
+    const tableBody = document.querySelector('#resultTable tbody');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function load(){
+      try{
+        return JSON.parse(localStorage.getItem(KEY)) || [];
+      }catch(e){ return [] }
+    }
+    function save(rows){
+      localStorage.setItem(KEY, JSON.stringify(rows));
+    }
+    function rowToTr(row, idx){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${idx+1}</td>
+        <td>${row.grade}</td>
+        <td>${row.name}</td>
+        <td>${row.level}</td>
+        <td>${row.interest ? '예' : '아니오'}</td>
+        <td>${new Date(row.ts).toLocaleString()}</td>
+      `;
+      return tr;
+    }
+    function render(){
+      const rows = load();
+      tableBody.innerHTML = '';
+      rows.forEach((r,i)=> tableBody.appendChild(rowToTr(r,i)));
+    }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = {
+        grade: form.grade.value.trim(),
+        name: form.name.value.trim(),
+        level: form.level.value,
+        interest: form.interest.checked,
+        ts: Date.now()
+      };
+      if(!data.grade || !data.name || !data.level){
+        alert('학년, 이름, 수준을 입력/선택하세요.');
+        return;
+      }
+      const rows = load();
+      rows.push(data);
+      save(rows);
+      render();
+      form.reset();
+      form.grade.focus();
+    });
+
+    clearBtn.addEventListener('click', ()=>{
+      if(confirm('모든 제출 기록을 삭제할까요?')){
+        localStorage.removeItem(KEY);
+        render();
+      }
+    });
+
+    // 초기 렌더
+    render();
+  </script>
+</body>
+</html>
